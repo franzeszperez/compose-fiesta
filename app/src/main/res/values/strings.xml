@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Compose Fiesta</string>
+    <string name="nav_back">Navigate back</string>
+
+    <!-- SignUp Screen -->
+    <string name="signup_header">Create your user &amp; password</string>
+    <string name="email_label">Email</string>
+    <string name="email_placeholder">This email will be your user</string>
+    <string name="password_label">Password</string>
+    <string name="password_placeholder">Enter a secure password</string>
+    <string name="name_label">Name</string>
+    <string name="name_placeholder">What should we call you?</string>
+    <string name="date_label">Birthday (DD-MM-YYYY)</string>
+    <string name="date_placeholder">Enter your birthday</string>
+    <string name="phone_label">Phone number</string>
+    <string name="phone_placeholder">Type your phone number</string>
+    <string name="signup">Sign Up!</string>
+</resources>
