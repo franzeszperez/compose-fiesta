@@ -71,8 +71,12 @@ fun SignUpTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     errorMessage: String = "",
 ) {
+
     Column(
-        modifier = modifier.padding(dimensionResource(id = R.dimen.padding_s))
+        modifier = modifier
+            .wrapContentSize()
+            .width(IntrinsicSize.Max)
+            .padding(dimensionResource(id = R.dimen.padding_s))
     ) {
         OutlinedTextField(
             value = value,
@@ -89,7 +93,7 @@ fun SignUpTextField(
         if (isError) {
             Text(
                 text = errorMessage,
-                style = TextStyle(color = MaterialTheme.colors.error)
+                style = TextStyle(color = MaterialTheme.colors.error),
             )
         }
     }

@@ -9,13 +9,16 @@
     <string name="email_invalid">Please enter a valid email</string>
     <string name="password_label">Password</string>
     <string name="password_placeholder">Enter a secure password</string>
-    <string name="password_invalid">Your password should contain one number, one lowercase and uppercase letters, and be longer than 4 characters</string>
+    <string name="password_invalid">Please enter a secure password</string>
     <string name="name_label">Name</string>
     <string name="name_placeholder">What should we call you?</string>
+    <string name="name_invalid">We need your name</string>
     <string name="date_label">Birthday (DD-MM-YYYY)</string>
     <string name="date_placeholder">Enter your birthday</string>
+    <string name="date_invalid">Please enter a valid date (DD-MM-YYYY)</string>
     <string name="phone_label">Phone number</string>
     <string name="phone_placeholder">Type your phone number</string>
     <string name="phone_invalid">Please enter 9 digits</string>
     <string name="signup">Sign Up!</string>
+    <string name="success_signup">You successfully signed up!</string>
 </resources>
