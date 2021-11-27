@@ -7,8 +7,8 @@ import androidx.compose.ui.res.stringResource
 import com.example.composefiesta.R
 
 @Composable
-fun AppBar() {
+fun AppBar(title: String = stringResource(id = R.string.app_name)) {
     TopAppBar(
-        title = { Text(text = stringResource(id = R.string.app_name)) },
+        title = { Text(text = title) },
     )
 }

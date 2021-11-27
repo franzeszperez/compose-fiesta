@@ -70,14 +70,11 @@ class SignUpViewModel : ViewModel() {
     }
 
     fun validateName(name: String) {
-
-        if (name.isNotEmpty()) {
-            val allFieldsValid =
-                state.value.emailValid == true && state.value.passwordValid == true && name.isNotEmpty() && state.value.phoneValid == true
-
-            _state.value =
-                _state.value.copy(nameValid = name.isNotEmpty(), allFieldsValid = allFieldsValid)
-        }
+        val nameValid = name.length > 1
+        val allFieldsValid =
+            state.value.emailValid == true && state.value.passwordValid == true && nameValid && state.value.phoneValid == true
+        _state.value =
+            _state.value.copy(nameValid = nameValid, allFieldsValid = allFieldsValid)
     }
 
     fun onDateChange(date: String) {
@@ -119,16 +116,22 @@ class SignUpViewModel : ViewModel() {
         }
     }
 
-    fun validateFieldsAndSubmit(email: String, password: String, name: String, date: String, phone: String) {
+    fun validateFieldsAndSubmit(
+        email: String,
+        password: String,
+        name: String,
+        date: String,
+        phone: String
+    ) {
         validateEmail(email = email)
         validatePassword(password = password)
         validateName(name = name)
         validateDate(date = date)
         validatePhone(phone = phone)
         val allFieldsValid =
-                state.value.emailValid == true && state.value.passwordValid == true && state.value.nameValid == true && state.value.dateValid == true && state.value.phoneValid == true
-            _state.value =
-                _state.value.copy(allFieldsValid = allFieldsValid)
+            state.value.emailValid == true && state.value.passwordValid == true && state.value.nameValid == true && state.value.dateValid == true && state.value.phoneValid == true
+        _state.value =
+            _state.value.copy(allFieldsValid = allFieldsValid)
         if (_state.value.allFieldsValid) {
             submitForm()
         }

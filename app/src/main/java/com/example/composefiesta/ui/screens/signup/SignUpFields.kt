@@ -17,15 +17,14 @@ import com.example.composefiesta.R
 fun SignUpField(
     value: String,
     onValueChange: (String) -> Unit,
-    labelString: String,
-    placeholderString: String,
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions,
-    isError: Boolean,
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
-    leadingIcon: @Composable () -> Unit = {},
+    labelString: String = "",
+    placeholderString: String = "",
     trailingIcon: @Composable () -> Unit = {},
+    isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     errorMessage: String = ""
 ) {
@@ -60,14 +59,13 @@ fun SignUpField(
 fun SignUpTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    labelString: String,
-    placeholderString: String,
-    modifier: Modifier = Modifier,
-    leadingIcon: (@Composable () -> Unit)? = null,
-    trailingIcon: @Composable () -> Unit = {},
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions,
-    isError: Boolean,
+    modifier: Modifier = Modifier,
+    labelString: String = "",
+    placeholderString: String = "",
+    trailingIcon: @Composable () -> Unit = {},
+    isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     errorMessage: String = "",
 ) {
@@ -83,12 +81,11 @@ fun SignUpTextField(
             onValueChange = onValueChange,
             label = { Text(text = labelString) },
             placeholder = { Text(text = placeholderString) },
-            leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
             isError = isError,
             visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
         )
         if (isError) {
             Text(

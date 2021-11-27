@@ -20,10 +20,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.composefiesta.ComposeFiestaApp
@@ -34,7 +31,7 @@ import com.example.composefiesta.ui.common.DateVisualTransformation
 @Composable
 fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
     Scaffold(
-        topBar = { AppBar() },
+        topBar = { AppBar(title = stringResource(id = R.string.signup)) },
     ) { paddingValues ->
         val state by viewModel.state.collectAsState()
         val focusManager = LocalFocusManager.current
@@ -52,8 +49,6 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
             SignUpField(
                 value = state.email,
                 onValueChange = { viewModel.onEmailChange(it) },
-                labelString = stringResource(id = R.string.email_label),
-                placeholderString = stringResource(id = R.string.email_placeholder),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next
@@ -62,6 +57,9 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
                     viewModel.validateEmail(state.email)
                     focusManager.moveFocus(FocusDirection.Down)
                 }),
+                icon = Icons.Default.Email,
+                labelString = stringResource(id = R.string.email_label),
+                placeholderString = stringResource(id = R.string.email_placeholder),
                 trailingIcon = {
                     if (state.email.isNotEmpty() && state.emailValid == true) {
                         IconButton(onClick = {}) {
@@ -74,7 +72,6 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
                     }
                 },
                 isError = state.email.isNotEmpty() && state.emailValid == false,
-                icon = Icons.Default.Email,
                 errorMessage = stringResource(id = R.string.email_invalid),
                 modifier = Modifier
                     .onFocusChanged { focusState ->
@@ -89,8 +86,6 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
             SignUpField(
                 value = state.password,
                 onValueChange = { viewModel.onPasswordChange(it) },
-                labelString = stringResource(id = R.string.password_label),
-                placeholderString = stringResource(id = R.string.password_placeholder),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Next
@@ -99,6 +94,9 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
                     viewModel.validatePassword(state.password)
                     focusManager.moveFocus(FocusDirection.Down)
                 }),
+                icon = Icons.Default.Lock,
+                labelString = stringResource(id = R.string.password_label),
+                placeholderString = stringResource(id = R.string.password_placeholder),
                 trailingIcon = {
                     Row {
                         IconButton(
@@ -129,7 +127,6 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
                 },
                 isError = state.password.isNotEmpty() && state.passwordValid == false,
                 visualTransformation = if (state.passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                icon = Icons.Default.Lock,
                 errorMessage = stringResource(id = R.string.password_invalid),
                 modifier = Modifier
                     .onFocusChanged { focusState ->
@@ -143,9 +140,8 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
             SignUpField(
                 value = state.name,
                 onValueChange = { viewModel.onNameChange(it) },
-                labelString = stringResource(id = R.string.name_label),
-                placeholderString = stringResource(id = R.string.name_placeholder),
                 keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Words,
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next
                 ),
@@ -153,8 +149,11 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
                     viewModel.validateName(state.name)
                     focusManager.moveFocus(FocusDirection.Down)
                 }),
+                icon = Icons.Default.Person,
+                labelString = stringResource(id = R.string.name_label),
+                placeholderString = stringResource(id = R.string.name_placeholder),
                 trailingIcon = {
-                    if (state.nameValid == true) {
+                    if (state.nameValid == true && state.name.isNotEmpty()) {
                         IconButton(onClick = {}) {
                             Icon(
                                 imageVector = Icons.Default.CheckCircle,
@@ -166,21 +165,24 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
                 },
                 isError = state.nameValid == false,
                 errorMessage = stringResource(id = R.string.name_invalid),
-                icon = Icons.Default.Person,
                 modifier = Modifier
                     .onFocusChanged { focusState ->
                         when {
                             !focusState.isFocused -> {
-                                viewModel.validateName(state.name)
+                                if (state.name.isNotEmpty()) {
+                                    viewModel.validateName(state.name)
+                                }
                             }
                         }
                     },
             )
             SignUpField(
                 value = state.date,
-                onValueChange = { viewModel.onDateChange(it) },
-                labelString = stringResource(id = R.string.date_label),
-                placeholderString = stringResource(id = R.string.date_placeholder),
+                onValueChange = {
+                    if (it.length <= 8) {
+                        viewModel.onDateChange(it)
+                    }
+                },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Next
@@ -189,7 +191,9 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
                     viewModel.validateDate(state.date)
                     focusManager.moveFocus(FocusDirection.Down)
                 }),
-                visualTransformation = DateVisualTransformation(),
+                icon = Icons.Default.Cake,
+                labelString = stringResource(id = R.string.date_label),
+                placeholderString = stringResource(id = R.string.date_placeholder),
                 trailingIcon = {
                     if (state.date.isNotEmpty() && state.dateValid == true) {
                         IconButton(onClick = {}) {
@@ -202,8 +206,8 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
                     }
                 },
                 isError = state.date.isNotEmpty() && state.dateValid == false,
+                visualTransformation = DateVisualTransformation(),
                 errorMessage = stringResource(id = R.string.date_invalid),
-                icon = Icons.Default.Cake,
                 modifier = Modifier
                     .onFocusChanged { focusState ->
                         when {
@@ -212,12 +216,10 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
                             }
                         }
                     },
-                )
+            )
             SignUpField(
                 value = state.phone,
                 onValueChange = { viewModel.onPhoneChange(it) },
-                labelString = stringResource(id = R.string.phone_label),
-                placeholderString = stringResource(id = R.string.phone_placeholder),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Phone,
                     imeAction = ImeAction.Send
@@ -235,6 +237,9 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
                         focusManager.clearFocus()
                     }
                 ),
+                icon = Icons.Default.Phone,
+                labelString = stringResource(id = R.string.phone_label),
+                placeholderString = stringResource(id = R.string.phone_placeholder),
                 trailingIcon = {
                     if (state.phone.isNotEmpty() && state.phoneValid == true) {
                         IconButton(onClick = {}) {
@@ -247,7 +252,6 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
                     }
                 },
                 isError = state.phone.isNotEmpty() && state.phoneValid == false,
-                icon = Icons.Default.Phone,
                 errorMessage = stringResource(id = R.string.phone_invalid),
                 modifier = Modifier.onFocusChanged { focusState ->
                     if (!focusState.isFocused) {
@@ -255,16 +259,18 @@ fun SignUpScreen(viewModel: SignUpViewModel = viewModel()) {
                     }
                 },
             )
-            Button(onClick = {
-                viewModel.validateFieldsAndSubmit(
-                    state.email,
-                    state.password,
-                    state.name,
-                    state.date,
-                    state.phone
-                )
-
-            }, enabled = state.allFieldsValid) {
+            Button(
+                onClick = {
+                    viewModel.validateFieldsAndSubmit(
+                        state.email,
+                        state.password,
+                        state.name,
+                        state.date,
+                        state.phone
+                    )
+                },
+                enabled = state.allFieldsValid
+            ) {
                 if (state.submitting) {
                     CircularProgressIndicator(color = MaterialTheme.colors.surface)
                 } else {
